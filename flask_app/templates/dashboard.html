@@ -2,162 +2,132 @@
 
 {% block content %}
 
-<!-- Dashboard Header -->
+<div class="py-4">
+    <div class="mb-4">
+        <h1 class="fw-bold mb-1">Student Performance AI Dashboard</h1>
+        <p class="text-muted mb-0">Monitor student performance using machine learning insights.</p>
+    </div>
 
-<div class="container-fluid">
+    <div class="row g-4 mb-4">
+        <div class="col-lg-3 col-md-6">
+            <div class="card dashboard-card h-100">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <small class="text-muted">Total Students</small>
+                        <h3 class="mb-0">1000</h3>
+                    </div>
+                    <i class="bi bi-people-fill dashboard-icon"></i>
+                </div>
+            </div>
+        </div>
 
-<div class="row mb-4">
+        <div class="col-lg-3 col-md-6">
+            <div class="card dashboard-card h-100">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <small class="text-muted">Average Grade</small>
+                        <h3 class="mb-0">74.6%</h3>
+                    </div>
+                    <i class="bi bi-bar-chart-fill dashboard-icon"></i>
+                </div>
+            </div>
+        </div>
 
-<div class="col">
+        <div class="col-lg-3 col-md-6">
+            <div class="card dashboard-card h-100">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <small class="text-muted">Average Attendance</small>
+                        <h3 class="mb-0">77.2%</h3>
+                    </div>
+                    <i class="bi bi-graph-up-arrow dashboard-icon"></i>
+                </div>
+            </div>
+        </div>
 
-<h1 class="fw-bold">
+        <div class="col-lg-3 col-md-6">
+            <div class="card dashboard-card h-100">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <small class="text-muted">AI Model</small>
+                        <h5 class="mb-0">Linear Regression</h5>
+                    </div>
+                    <i class="bi bi-cpu-fill dashboard-icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<i class="bi bi-speedometer2"></i>
+    <div class="row g-4 mb-4">
+        <div class="col-lg-6">
+            <div class="card dashboard-card h-100 p-3">
+                <h5 class="mb-3">Grade Distribution</h5>
+                <canvas id="gradeChart"></canvas>
+            </div>
+        </div>
 
-Student Performance AI Dashboard
+        <div class="col-lg-6">
+            <div class="card dashboard-card h-100 p-3">
+                <h5 class="mb-3">Attendance Trend</h5>
+                <canvas id="attendanceChart"></canvas>
+            </div>
+        </div>
+    </div>
 
-</h1>
+    <div class="row g-4 mb-4">
+        <div class="col-lg-6">
+            <div class="card dashboard-card h-100 p-3">
+                <h5 class="mb-3">Study Hours</h5>
+                <canvas id="studyChart"></canvas>
+            </div>
+        </div>
 
-<p class="text-muted">
-
-Monitor student academic performance using Artificial Intelligence and Machine Learning.
-
-</p>
-
+        <div class="col-lg-6">
+            <div class="card dashboard-card h-100 p-4">
+                <h5 class="mb-3">AI Insights</h5>
+                <ul class="mb-0">
+                    <li>Average grade is around 74.6%.</li>
+                    <li>Attendance has a strong impact on performance.</li>
+                    <li>Students who study more hours tend to perform better.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
 
-</div>
-
-
-<!-- KPI Cards -->
-
-<div class="row g-4">
-
-<div class="col-lg-3 col-md-6">
-
-<div class="card dashboard-card">
-
-<div class="card-body">
-
-<div class="d-flex justify-content-between">
-
-<div>
-
-<h6>Total Students</h6>
-
-<h2>1000</h2>
-
-</div>
-
-<div>
-
-<i class="bi bi-people-fill dashboard-icon"></i>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<div class="col-lg-3 col-md-6">
-
-<div class="card dashboard-card">
-
-<div class="card-body">
-
-<div class="d-flex justify-content-between">
-
-<div>
-
-<h6>Average Grade</h6>
-
-<h2>74.6%</h2>
-
-</div>
-
-<div>
-
-<i class="bi bi-bar-chart-fill dashboard-icon"></i>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<div class="col-lg-3 col-md-6">
-
-<div class="card dashboard-card">
-
-<div class="card-body">
-
-<div class="d-flex justify-content-between">
-
-<div>
-
-<h6>Attendance</h6>
-
-<h2>77.2%</h2>
-
-</div>
-
-<div>
-
-<i class="bi bi-graph-up-arrow dashboard-icon"></i>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<div class="col-lg-3 col-md-6">
-
-<div class="card dashboard-card">
-
-<div class="card-body">
-
-<div class="d-flex justify-content-between">
-
-<div>
-
-<h6>AI Model</h6>
-
-<h5>Linear Regression</h5>
-
-</div>
-
-<div>
-
-<i class="bi bi-cpu-fill dashboard-icon"></i>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    new Chart(document.getElementById("gradeChart"), {
+        type: "bar",
+        data: {
+            labels: ["50-59", "60-69", "70-79", "80-89", "90-100"],
+            datasets: [{
+                label: "Students",
+                data: [12, 22, 34, 18, 9]
+            }]
+        }
+    });
+
+    new Chart(document.getElementById("attendanceChart"), {
+        type: "line",
+        data: {
+            labels: ["50", "60", "70", "80", "90", "100"],
+            datasets: [{
+                label: "Attendance",
+                data: [8, 14, 20, 25, 18, 11]
+            }]
+        }
+    });
+
+    new Chart(document.getElementById("studyChart"), {
+        type: "doughnut",
+        data: {
+            labels: ["0-5 hrs", "6-10 hrs", "11-15 hrs", "16+ hrs"],
+            datasets: [{
+                data: [15, 30, 28, 12]
+            }]
+        }
+    });
+</script>
 
 {% endblock %}
