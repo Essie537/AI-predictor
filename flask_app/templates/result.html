@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card shadow p-5 text-center">
+
+<h2>
+
+Prediction Result
+
+</h2>
+
+<hr>
+
+<h1 class="display-1 text-success">
+
+{{ prediction }}%
+
+</h1>
+
+{% if prediction >= 80 %}
+
+<div class="alert alert-success">
+
+<h3>Excellent Performance ⭐⭐⭐⭐⭐</h3>
+
+<p>Keep maintaining your attendance and study habits.</p>
+
+</div>
+
+{% elif prediction >= 60 %}
+
+<div class="alert alert-primary">
+
+<h3>Good Performance 👍</h3>
+
+<p>The student is performing well. Continue working consistently.</p>
+
+</div>
+
+{% elif prediction >= 40 %}
+
+<div class="alert alert-warning">
+
+<h3>Average Performance</h3>
+
+<p>More study hours and attendance are recommended.</p>
+
+</div>
+
+{% else %}
+
+<div class="alert alert-danger">
+
+<h3>Needs Improvement</h3>
+
+<p>The student should improve attendance and study habits.</p>
+
+</div>
+
+{% endif %}
+
+<a href="/predict" class="btn btn-primary">
+
+Predict Another Student
+
+</a>
+
+</div>
+
+{% endblock %}

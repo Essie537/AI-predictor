@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="text-center mb-4">
+
+Predict Student Performance
+
+</h2>
+
+<form action="/predict" method="POST">
+
+<div class="row">
+
+<div class="col-md-6">
+
+<label>Gender</label>
+
+<select class="form-control" name="gender">
+
+<option>Male</option>
+<option>Female</option>
+
+</select>
+
+</div>
+
+<div class="col-md-6">
+
+<label>Attendance Rate (%)</label>
+
+<input class="form-control" type="number" name="attendance" required>
+
+</div>
+
+</div>
+
+<br>
+
+<div class="row">
+
+<div class="col-md-6">
+
+<label>Study Hours Per Week</label>
+
+<input class="form-control" type="number" name="study_hours" required>
+
+</div>
+
+<div class="col-md-6">
+
+<label>Previous Grade</label>
+
+<input class="form-control" type="number" name="previous_grade" required>
+
+</div>
+
+</div>
+
+<br>
+
+<div class="row">
+
+<div class="col-md-6">
+
+<label>Extracurricular Activities</label>
+
+<input class="form-control" type="number" name="extracurricular" required>
+
+</div>
+
+<div class="col-md-6">
+
+<label>Parental Support</label>
+
+<select class="form-control" name="parental_support">
+
+<option>Low</option>
+<option>Medium</option>
+<option>High</option>
+
+</select>
+
+</div>
+
+</div>
+
+<br>
+
+<label>Online Classes Taken</label>
+
+<select class="form-control" name="online_classes">
+
+<option>True</option>
+<option>False</option>
+
+</select>
+
+<br>
+
+<button class="btn btn-success btn-lg w-100">
+
+Predict Final Grade
+
+</button>
+
+</form>
+
+{% endblock %}

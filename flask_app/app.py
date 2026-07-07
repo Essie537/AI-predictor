@@ -21,7 +21,7 @@ model = joblib.load(MODEL_PATH)
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return render_template("home.html")
 
 
 @app.route("/about")
@@ -38,21 +38,18 @@ def contact():
 # Prediction
 # -----------------------------------
 
-@app.route("/predict", methods=["POST"])
+@app.route("/predict", methods=["GET", "POST"])
 def predict():
 
+    if request.method == "GET":
+        return render_template("predict.html")
+
     gender = request.form["gender"]
-
     attendance = float(request.form["attendance"])
-
     study_hours = float(request.form["study_hours"])
-
     previous_grade = float(request.form["previous_grade"])
-
     extracurricular = float(request.form["extracurricular"])
-
     parental_support = request.form["parental_support"]
-
     online_classes = request.form["online_classes"]
 
     input_data = pd.DataFrame({
@@ -65,12 +62,23 @@ def predict():
         "Online Classes Taken": [online_classes]
     })
 
-    prediction = model.predict(input_data)[0]
+    prediction = round(model.predict(input_data)[0], 2)
 
     return render_template(
-        "index.html",
-        prediction=round(prediction, 2)
+        "result.html",
+        prediction=prediction
     )
+
+
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+
+@app.route("/contact")
+def contact():
+    return render_template("contact.html")
+
 
 
 if __name__ == "__main__":
