@@ -2,102 +2,162 @@
 
 {% block content %}
 
-<h1 class="text-center mb-5">
+<!-- Dashboard Header -->
 
-AI Analytics Dashboard
+<div class="container-fluid">
+
+<div class="row mb-4">
+
+<div class="col">
+
+<h1 class="fw-bold">
+
+<i class="bi bi-speedometer2"></i>
+
+Student Performance AI Dashboard
 
 </h1>
 
-<div class="row">
+<p class="text-muted">
 
-<div class="col-md-6">
+Monitor student academic performance using Artificial Intelligence and Machine Learning.
 
-<canvas id="gradeChart"></canvas>
-
-</div>
-
-<div class="col-md-6">
-
-<canvas id="attendanceChart"></canvas>
+</p>
 
 </div>
 
 </div>
 
-<br><br>
 
-<div class="row">
+<!-- KPI Cards -->
 
-<div class="col-md-12">
+<div class="row g-4">
 
-<canvas id="studyChart"></canvas>
+<div class="col-lg-3 col-md-6">
+
+<div class="card dashboard-card">
+
+<div class="card-body">
+
+<div class="d-flex justify-content-between">
+
+<div>
+
+<h6>Total Students</h6>
+
+<h2>1000</h2>
+
+</div>
+
+<div>
+
+<i class="bi bi-people-fill dashboard-icon"></i>
 
 </div>
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</div>
 
-<script>
+</div>
 
-new Chart(document.getElementById("gradeChart"),{
+</div>
 
-type:"bar",
 
-data:{
+<div class="col-lg-3 col-md-6">
 
-labels:["A","B","C","D","E","F","G","H","I","J"],
+<div class="card dashboard-card">
 
-datasets:[{
+<div class="card-body">
 
-label:"Final Grades",
+<div class="d-flex justify-content-between">
 
-data:{{ grade_data|tojson }}
+<div>
 
-}]
+<h6>Average Grade</h6>
 
-}
+<h2>74.6%</h2>
 
-});
+</div>
 
-new Chart(document.getElementById("attendanceChart"),{
+<div>
 
-type:"line",
+<i class="bi bi-bar-chart-fill dashboard-icon"></i>
 
-data:{
+</div>
 
-labels:["1","2","3","4","5","6","7","8"],
+</div>
 
-datasets:[{
+</div>
 
-label:"Attendance",
+</div>
 
-data:{{ attendance_data|tojson }}
+</div>
 
-}]
 
-}
+<div class="col-lg-3 col-md-6">
 
-});
+<div class="card dashboard-card">
 
-new Chart(document.getElementById("studyChart"),{
+<div class="card-body">
 
-type:"pie",
+<div class="d-flex justify-content-between">
 
-data:{
+<div>
 
-labels:["2","5","7","8","10","12","15","18","20"],
+<h6>Attendance</h6>
 
-datasets:[{
+<h2>77.2%</h2>
 
-data:{{ study_data|tojson }}
+</div>
 
-}]
+<div>
 
-}
+<i class="bi bi-graph-up-arrow dashboard-icon"></i>
 
-});
+</div>
 
-</script>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="col-lg-3 col-md-6">
+
+<div class="card dashboard-card">
+
+<div class="card-body">
+
+<div class="d-flex justify-content-between">
+
+<div>
+
+<h6>AI Model</h6>
+
+<h5>Linear Regression</h5>
+
+</div>
+
+<div>
+
+<i class="bi bi-cpu-fill dashboard-icon"></i>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
 
 {% endblock %}
