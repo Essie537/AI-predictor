@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 class="text-center mb-5">
+
+AI Analytics Dashboard
+
+</h1>
+
+<div class="row">
+
+<div class="col-md-6">
+
+<canvas id="gradeChart"></canvas>
+
+</div>
+
+<div class="col-md-6">
+
+<canvas id="attendanceChart"></canvas>
+
+</div>
+
+</div>
+
+<br><br>
+
+<div class="row">
+
+<div class="col-md-12">
+
+<canvas id="studyChart"></canvas>
+
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+new Chart(document.getElementById("gradeChart"),{
+
+type:"bar",
+
+data:{
+
+labels:["A","B","C","D","E","F","G","H","I","J"],
+
+datasets:[{
+
+label:"Final Grades",
+
+data:{{ grade_data|tojson }}
+
+}]
+
+}
+
+});
+
+new Chart(document.getElementById("attendanceChart"),{
+
+type:"line",
+
+data:{
+
+labels:["1","2","3","4","5","6","7","8"],
+
+datasets:[{
+
+label:"Attendance",
+
+data:{{ attendance_data|tojson }}
+
+}]
+
+}
+
+});
+
+new Chart(document.getElementById("studyChart"),{
+
+type:"pie",
+
+data:{
+
+labels:["2","5","7","8","10","12","15","18","20"],
+
+datasets:[{
+
+data:{{ study_data|tojson }}
+
+}]
+
+}
+
+});
+
+</script>
+
+{% endblock %}

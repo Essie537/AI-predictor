@@ -1,3 +1,4 @@
+import json
 from flask import Flask, render_template, request
 import joblib
 import pandas as pd
@@ -32,6 +33,19 @@ def about():
 @app.route("/contact")
 def contact():
     return render_template("contact.html")
+
+@app.route("/dashboard")
+def dashboard():
+
+    return render_template(
+        "dashboard.html",
+
+        grade_data=[55,62,68,74,80,82,85,90,94,96],
+
+        attendance_data=[60,65,70,75,80,85,90,95],
+
+        study_data=[2,5,7,8,10,12,15,18,20]
+    )
 
 
 # -----------------------------------
