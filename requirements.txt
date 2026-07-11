@@ -7,3 +7,6 @@ joblib
 scikit-learn
 numpy
 matplotlib
+Flask-WTF
+WTForms
+email-validator
