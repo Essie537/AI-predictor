@@ -11,7 +11,7 @@ from pathlib import Path
 import joblib
 import pandas as pd
 
-from models import db, User
+from flask_app.models import db, User
 
 # =====================================================
 # Create Flask App
