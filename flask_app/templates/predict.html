@@ -2,108 +2,286 @@
 
 {% block content %}
 
-<h2 class="text-center mb-4">
+<div class="container py-5">
 
-Predict Student Performance
+<div class="row">
 
-</h2>
+<!-- LEFT SIDE -->
+
+<div class="col-lg-7">
+
+<div class="card shadow-lg border-0">
+
+<div class="card-header bg-primary text-white">
+
+<h3>
+
+🤖 Student Information
+
+</h3>
+
+</div>
+
+<div class="card-body">
 
 <form action="/predict" method="POST">
 
 <div class="row">
 
-<div class="col-md-6">
+<div class="col-md-6 mb-3">
 
-<label>Gender</label>
+<label class="form-label">
 
-<select class="form-control" name="gender">
+Gender
+
+</label>
+
+<select class="form-select" name="gender">
 
 <option>Male</option>
+
 <option>Female</option>
 
 </select>
 
 </div>
 
-<div class="col-md-6">
+<div class="col-md-6 mb-3">
 
-<label>Attendance Rate (%)</label>
+<label class="form-label">
 
-<input class="form-control" type="number" name="attendance" required>
+Attendance Rate (%)
 
-</div>
+</label>
 
-</div>
+<input
 
-<br>
+type="number"
 
-<div class="row">
+class="form-control"
 
-<div class="col-md-6">
+name="attendance"
 
-<label>Study Hours Per Week</label>
-
-<input class="form-control" type="number" name="study_hours" required>
+required>
 
 </div>
 
-<div class="col-md-6">
+<div class="col-md-6 mb-3">
 
-<label>Previous Grade</label>
+<label>
 
-<input class="form-control" type="number" name="previous_grade" required>
+Study Hours / Week
 
-</div>
+</label>
 
-</div>
+<input
 
-<br>
+type="number"
 
-<div class="row">
+class="form-control"
 
-<div class="col-md-6">
+name="study_hours"
 
-<label>Extracurricular Activities</label>
-
-<input class="form-control" type="number" name="extracurricular" required>
+required>
 
 </div>
 
-<div class="col-md-6">
+<div class="col-md-6 mb-3">
 
-<label>Parental Support</label>
+<label>
 
-<select class="form-control" name="parental_support">
+Previous Grade
+
+</label>
+
+<input
+
+type="number"
+
+class="form-control"
+
+name="previous_grade"
+
+required>
+
+</div>
+
+<div class="col-md-6 mb-3">
+
+<label>
+
+Extracurricular Activities
+
+</label>
+
+<input
+
+type="number"
+
+class="form-control"
+
+name="extracurricular"
+
+required>
+
+</div>
+
+<div class="col-md-6 mb-3">
+
+<label>
+
+Parental Support
+
+</label>
+
+<select
+
+class="form-select"
+
+name="parental_support">
 
 <option>Low</option>
+
 <option>Medium</option>
+
 <option>High</option>
 
 </select>
 
 </div>
 
-</div>
+<div class="col-md-12 mb-4">
 
-<br>
+<label>
 
-<label>Online Classes Taken</label>
+Online Classes Taken
 
-<select class="form-control" name="online_classes">
+</label>
+
+<select
+
+class="form-select"
+
+name="online_classes">
 
 <option>True</option>
+
 <option>False</option>
 
 </select>
 
-<br>
+</div>
 
-<button class="btn btn-success btn-lg w-100">
+</div>
 
-Predict Final Grade
+<button
+
+class="btn btn-primary btn-lg w-100">
+
+🚀 Predict Student Performance
 
 </button>
 
 </form>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- RIGHT SIDE -->
+
+<div class="col-lg-5">
+
+<div class="card shadow-lg border-0">
+
+<div class="card-header bg-success text-white">
+
+<h3>
+
+🧠 AI Assistant
+
+</h3>
+
+</div>
+
+<div class="card-body">
+
+<h5>
+
+How does it work?
+
+</h5>
+
+<hr>
+
+<p>
+
+✔ Attendance influences performance.
+
+</p>
+
+<p>
+
+✔ Study hours improve prediction accuracy.
+
+</p>
+
+<p>
+
+✔ Previous grades are strong indicators.
+
+</p>
+
+<p>
+
+✔ Parental support affects learning outcomes.
+
+</p>
+
+<p>
+
+✔ Online learning participation contributes to the final prediction.
+
+</p>
+
+<hr>
+
+<h5>
+
+Our AI Uses
+
+</h5>
+
+<ul>
+
+<li>Machine Learning</li>
+
+<li>Linear Regression</li>
+
+<li>Data Analytics</li>
+
+<li>Artificial Intelligence</li>
+
+</ul>
+
+<div class="alert alert-info mt-3">
+
+<strong>Tip:</strong>
+
+Enter accurate student information for the most reliable prediction.
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
 
 {% endblock %}
