@@ -1,44 +1,202 @@
 import pandas as pd
-from pathlib import Path
-from sklearn.impute import SimpleImputer
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+
+import joblib
+
 
 # ==========================================
 # Load Dataset
 # ==========================================
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-DATA_PATH = BASE_DIR / "data" / "student_performance_updated_1000 .csv"
+data = pd.read_csv(
+    "data/student_exam_performance_dataset (1).csv"
+)
 
-df = pd.read_csv(DATA_PATH)
+print("=" * 60)
+print("ORIGINAL DATA")
+print("=" * 60)
 
-print("Dataset loaded successfully!\n")
+print(data.head())
+print("\nOriginal Shape:", data.shape)
 
-# Remove StudentID and Name
 
-df = df.drop(columns=["StudentID", "Name"])
-
-print("Columns after dropping StudentID and Name:")
-print(df.columns)
-# Separate numerical and categorical columns
-# ==========================================
-
-numerical_columns = df.select_dtypes(include=["float64", "int64"]).columns
-
-categorical_columns = df.select_dtypes(include=["object", "bool", "string"]).columns
 
 # ==========================================
-# Fill missing numerical values with median
+# Remove Unnecessary Columns
 # ==========================================
 
-num_imputer = SimpleImputer(strategy="median")
-df[numerical_columns] = num_imputer.fit_transform(df[numerical_columns])
+data = data.drop(columns=[
+
+    "student_id",
+    "grade_category",
+
+    # Remove data leakage columns
+    "math_score",
+    "reading_score",
+    "writing_score",
+    "science_score",
+    "final_exam_score"
+
+])
+
+
+print("\nColumns After Cleaning:")
+print(data.columns.tolist())
+
+
 
 # ==========================================
-# Fill missing categorical values with mode
+# Encode Categorical Variables
 # ==========================================
 
-cat_imputer = SimpleImputer(strategy="most_frequent")
-df[categorical_columns] = cat_imputer.fit_transform(df[categorical_columns])
+encoders = {}
 
-print("\nMissing Values After Cleaning:\n")
-print(df.isnull().sum())
+
+categorical_columns = [
+
+    "gender",
+    "parental_education",
+    "family_income",
+    "internet_access",
+    "study_environment",
+    "tutoring",
+    "pass_fail"
+
+]
+
+
+print("\nEncoding Categorical Features")
+
+
+for column in categorical_columns:
+
+    encoder = LabelEncoder()
+
+    data[column] = encoder.fit_transform(
+        data[column]
+    )
+
+    encoders[column] = encoder
+
+
+    print(
+        column,
+        ":",
+        list(
+            encoder.classes_
+        )
+    )
+
+
+
+# ==========================================
+# Features and Target
+# ==========================================
+
+
+X = data.drop(
+    columns=["pass_fail"]
+)
+
+
+y = data["pass_fail"]
+
+
+
+print("\n")
+print("=" * 60)
+print("FEATURES USED FOR TRAINING")
+print("=" * 60)
+
+
+print(
+    X.columns.tolist()
+)
+
+
+
+# ==========================================
+# Train Test Split
+# ==========================================
+
+X_train, X_test, y_train, y_test = train_test_split(
+
+    X,
+
+    y,
+
+    test_size=0.20,
+
+    random_state=42,
+
+    stratify=y
+
+)
+
+
+
+print("\nTraining Samples:", len(X_train))
+
+print("Testing Samples :", len(X_test))
+
+
+
+# ==========================================
+# Save Encoders
+# ==========================================
+
+
+joblib.dump(
+
+    encoders,
+
+    "models/encoders.pkl"
+
+)
+
+
+print(
+    "\nEncoders saved successfully."
+)
+
+
+
+# ==========================================
+# Save Preprocessed Data
+# ==========================================
+
+
+joblib.dump(
+
+    {
+
+        "X_train": X_train,
+
+        "X_test": X_test,
+
+        "y_train": y_train,
+
+        "y_test": y_test,
+
+        "feature_names": X.columns.tolist()
+
+    },
+
+    "models/preprocessed_data.pkl"
+
+)
+
+
+
+print(
+    "Preprocessed data saved successfully."
+)
+
+
+
+print("\n")
+print("=" * 60)
+print("PREPROCESSING COMPLETED SUCCESSFULLY")
+print("=" * 60)

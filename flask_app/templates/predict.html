@@ -15,164 +15,359 @@
 <div class="card-header bg-primary text-white">
 
 <h3>
-
 🤖 Student Information
-
 </h3>
 
 </div>
 
+
 <div class="card-body">
+
 
 <form action="/predict" method="POST">
 
+
 <div class="row">
+
+
+<!-- Gender -->
 
 <div class="col-md-6 mb-3">
 
 <label class="form-label">
-
 Gender
-
 </label>
 
 <select class="form-select" name="gender">
 
-<option>Male</option>
+<option value="Male">
+Male
+</option>
 
-<option>Female</option>
+<option value="Female">
+Female
+</option>
 
 </select>
 
 </div>
+
+
+
+<!-- Age -->
 
 <div class="col-md-6 mb-3">
 
 <label class="form-label">
-
-Attendance Rate (%)
-
+Age
 </label>
 
 <input
-
 type="number"
-
 class="form-control"
-
-name="attendance"
-
+name="age"
 required>
 
 </div>
 
-<div class="col-md-6 mb-3">
 
-<label>
 
-Study Hours / Week
-
-</label>
-
-<input
-
-type="number"
-
-class="form-control"
-
-name="study_hours"
-
-required>
-
-</div>
+<!-- Parental Education -->
 
 <div class="col-md-6 mb-3">
 
-<label>
-
-Previous Grade
-
+<label class="form-label">
+Parental Education
 </label>
 
-<input
+<select class="form-select" name="parental_education">
 
-type="number"
+<option value="High School">
+High School
+</option>
 
-class="form-control"
+<option value="Bachelor">
+Bachelor
+</option>
 
-name="previous_grade"
-
-required>
-
-</div>
-
-<div class="col-md-6 mb-3">
-
-<label>
-
-Extracurricular Activities
-
-</label>
-
-<input
-
-type="number"
-
-class="form-control"
-
-name="extracurricular"
-
-required>
-
-</div>
-
-<div class="col-md-6 mb-3">
-
-<label>
-
-Parental Support
-
-</label>
-
-<select
-
-class="form-select"
-
-name="parental_support">
-
-<option>Low</option>
-
-<option>Medium</option>
-
-<option>High</option>
+<option value="Master">
+Master
+</option>
 
 </select>
 
 </div>
+
+
+
+<!-- Family Income -->
+
+<div class="col-md-6 mb-3">
+
+<label class="form-label">
+Family Income
+</label>
+
+<select class="form-select" name="family_income">
+
+<option value="Low">
+Low
+</option>
+
+<option value="Medium">
+Medium
+</option>
+
+<option value="High">
+High
+</option>
+
+</select>
+
+</div>
+
+
+
+
+<!-- Internet Access -->
+
+<div class="col-md-6 mb-3">
+
+<label class="form-label">
+Internet Access
+</label>
+
+<select class="form-select" name="internet_access">
+
+<option value="Yes">
+Yes
+</option>
+
+<option value="No">
+No
+</option>
+
+</select>
+
+</div>
+
+
+
+
+<!-- Study Environment -->
+
+<div class="col-md-6 mb-3">
+
+<label class="form-label">
+Study Environment
+</label>
+
+<select class="form-select" name="study_environment">
+
+<option value="Quiet">
+Quiet
+</option>
+
+<option value="Moderate">
+Moderate
+</option>
+
+<option value="Noisy">
+Noisy
+</option>
+
+</select>
+
+</div>
+
+
+
+
+<!-- Study Hours -->
+
+<div class="col-md-6 mb-3">
+
+<label class="form-label">
+Study Hours Per Day
+</label>
+
+<input
+type="number"
+step="0.1"
+class="form-control"
+name="study_hours_per_day"
+required>
+
+</div>
+
+
+
+
+<!-- Attendance -->
+
+<div class="col-md-6 mb-3">
+
+<label class="form-label">
+Attendance Rate (%)
+</label>
+
+<input
+type="number"
+step="0.1"
+class="form-control"
+name="attendance_rate"
+required>
+
+</div>
+
+
+
+
+<!-- Sleep Hours -->
+
+<div class="col-md-6 mb-3">
+
+<label class="form-label">
+Sleep Hours
+</label>
+
+<input
+type="number"
+step="0.1"
+class="form-control"
+name="sleep_hours"
+required>
+
+</div>
+
+
+
+
+<!-- Social Media -->
+
+<div class="col-md-6 mb-3">
+
+<label class="form-label">
+Social Media Hours
+</label>
+
+<input
+type="number"
+step="0.1"
+class="form-control"
+name="social_media_hours"
+required>
+
+</div>
+
+
+
+
+<!-- Assignment Completion -->
+
+<div class="col-md-6 mb-3">
+
+<label class="form-label">
+Assignment Completion Rate
+</label>
+
+<input
+type="number"
+step="0.1"
+class="form-control"
+name="assignment_completion_rate"
+required>
+
+</div>
+
+
+
+
+<!-- Participation Score -->
+
+<div class="col-md-6 mb-3">
+
+<label class="form-label">
+Participation Score
+</label>
+
+<input
+type="number"
+step="0.1"
+class="form-control"
+name="participation_score"
+required>
+
+</div>
+
+
+
+
+<!-- Online Courses -->
+
+<div class="col-md-6 mb-3">
+
+<label class="form-label">
+Online Courses Completed
+</label>
+
+<input
+type="number"
+class="form-control"
+name="online_courses_completed"
+required>
+
+</div>
+
+
+
+
+<!-- Tutoring -->
+
+<div class="col-md-6 mb-3">
+
+<label class="form-label">
+Tutoring
+</label>
+
+<select class="form-select" name="tutoring">
+
+<option value="Yes">
+Yes
+</option>
+
+<option value="No">
+No
+</option>
+
+</select>
+
+</div>
+
+
+
+
+<!-- Previous GPA -->
 
 <div class="col-md-12 mb-4">
 
-<label>
-
-Online Classes Taken
-
+<label class="form-label">
+Previous GPA
 </label>
 
-<select
-
-class="form-select"
-
-name="online_classes">
-
-<option>True</option>
-
-<option>False</option>
-
-</select>
+<input
+type="number"
+step="0.01"
+class="form-control"
+name="previous_gpa"
+required>
 
 </div>
 
+
 </div>
+
+
 
 <button
 
@@ -182,106 +377,121 @@ class="btn btn-primary btn-lg w-100">
 
 </button>
 
+
 </form>
 
-</div>
 
 </div>
 
 </div>
+
+</div>
+
+
 
 <!-- RIGHT SIDE -->
 
 <div class="col-lg-5">
 
+
 <div class="card shadow-lg border-0">
+
 
 <div class="card-header bg-success text-white">
 
+
 <h3>
-
 🧠 AI Assistant
-
 </h3>
+
 
 </div>
 
+
 <div class="card-body">
 
-<h5>
 
+<h5>
 How does it work?
-
 </h5>
 
-<hr>
-
-<p>
-
-✔ Attendance influences performance.
-
-</p>
-
-<p>
-
-✔ Study hours improve prediction accuracy.
-
-</p>
-
-<p>
-
-✔ Previous grades are strong indicators.
-
-</p>
-
-<p>
-
-✔ Parental support affects learning outcomes.
-
-</p>
-
-<p>
-
-✔ Online learning participation contributes to the final prediction.
-
-</p>
 
 <hr>
+
+
+<p>
+✔ Attendance rate helps measure student consistency.
+</p>
+
+
+<p>
+✔ Study hours indicate learning commitment.
+</p>
+
+
+<p>
+✔ Previous GPA provides academic history.
+</p>
+
+
+<p>
+✔ Assignment completion shows responsibility.
+</p>
+
+
+<p>
+✔ Participation and learning environment influence outcomes.
+</p>
+
+
+<hr>
+
 
 <h5>
-
 Our AI Uses
-
 </h5>
+
 
 <ul>
 
 <li>Machine Learning</li>
 
-<li>Linear Regression</li>
+<li>Logistic Regression</li>
+
+<li>Random Forest</li>
+
+<li>Gradient Boosting</li>
 
 <li>Data Analytics</li>
 
-<li>Artificial Intelligence</li>
-
 </ul>
+
+
 
 <div class="alert alert-info mt-3">
 
+
 <strong>Tip:</strong>
 
-Enter accurate student information for the most reliable prediction.
+Enter accurate student information for a reliable AI prediction.
+
 
 </div>
 
-</div>
 
 </div>
 
-</div>
 
 </div>
 
+
 </div>
+
+
+</div>
+
+
+</div>
+
 
 {% endblock %}

@@ -1,131 +1,146 @@
-import pandas as pd
-from pathlib import Path
 import joblib
+import pandas as pd
 
-from sklearn.impute import SimpleImputer
-from sklearn.compose import ColumnTransformer
-from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import OneHotEncoder
-from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_absolute_error, r2_score
+from sklearn.ensemble import (
+    RandomForestClassifier,
+    GradientBoostingClassifier
+)
 
-# ==========================================
-# Load Dataset
-# ==========================================
+from sklearn.tree import DecisionTreeClassifier
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-DATA_PATH = BASE_DIR / "data" / "student_performance_updated_1000 .csv"
+from sklearn.linear_model import LogisticRegression
 
-df = pd.read_csv(DATA_PATH)
-
-# ==========================================
-# Keep only the features we need
-
-df = df[
-    [
-        "Gender",
-        "AttendanceRate",
-        "StudyHoursPerWeek",
-        "PreviousGrade",
-        "ExtracurricularActivities",
-        "ParentalSupport",
-        "Online Classes Taken",
-        "FinalGrade",
-    ]
-]
-
-# ==========================================
-# Remove rows where FinalGrade is missing
-# ==========================================
-
-df = df.dropna(subset=["FinalGrade"])
-
-# ==========================================
-# Separate Features and Target
-# ==========================================
-
-X = df.drop("FinalGrade", axis=1)
-y = df["FinalGrade"]
-
-# ==========================================
-# Identify column types
-# ==========================================
-
-numeric_features = X.select_dtypes(include=["float64", "int64"]).columns
-categorical_features = X.select_dtypes(include=["object", "bool", "string"]).columns
-
-# ==========================================
-# Preprocessing
-# ==========================================
-
-numeric_transformer = Pipeline([
-    ("imputer", SimpleImputer(strategy="median"))
-])
-
-categorical_transformer = Pipeline([
-    ("imputer", SimpleImputer(strategy="most_frequent")),
-    ("encoder", OneHotEncoder(handle_unknown="ignore"))
-])
-
-preprocessor = ColumnTransformer([
-    ("num", numeric_transformer, numeric_features),
-    ("cat", categorical_transformer, categorical_features)
-])
-
-# ==========================================
-# Build Model Pipeline
-# ==========================================
-
-model = Pipeline([
-    ("preprocessor", preprocessor),
-    ("regressor", LinearRegression())
-])
-
-# ==========================================
-# Split Dataset
-# ==========================================
-
-X_train, X_test, y_train, y_test = train_test_split(
-    X,
-    y,
-    test_size=0.2,
-    random_state=42
+from sklearn.metrics import (
+    accuracy_score,
+    precision_score,
+    recall_score,
+    f1_score,
+    confusion_matrix,
+    classification_report
 )
 
 # ==========================================
-# Train Model
+# Load Processed Data
 # ==========================================
 
-print("Training AI model...\n")
+data = joblib.load("models/preprocessed_data.pkl")
+print("=" * 60)
+print("FEATURES LOADED FROM PREPROCESSED DATA")
+print("=" * 60)
 
-model.fit(X_train, y_train)
+print(data["X_train"].columns.tolist())
 
-print("Training completed.\n")
-
-# ==========================================
-# Evaluate Model
-# ==========================================
-
-predictions = model.predict(X_test)
-
-mae = mean_absolute_error(y_test, predictions)
-r2 = r2_score(y_test, predictions)
-
-print("========== MODEL PERFORMANCE ==========")
-print(f"Mean Absolute Error : {mae:.2f}")
-print(f"R² Score            : {r2:.2f}")
+X_train = data["X_train"]
+X_test = data["X_test"]
+y_train = data["y_train"]
+y_test = data["y_test"]
 
 # ==========================================
-# Save Model
+# Machine Learning Models
 # ==========================================
 
-MODEL_DIR = BASE_DIR / "models"
-MODEL_DIR.mkdir(exist_ok=True)
+models = {
 
-MODEL_PATH = MODEL_DIR / "student_performance_model.pkl"
+    "Random Forest": RandomForestClassifier(
+        n_estimators=200,
+        random_state=42
+    ),
 
-joblib.dump(model, MODEL_PATH)
+    "Decision Tree": DecisionTreeClassifier(
+        random_state=42
+    ),
 
-print("\nModel saved successfully!")
-print(MODEL_PATH)
+    "Logistic Regression": LogisticRegression(
+        max_iter=1000
+    ),
+
+    "Gradient Boosting": GradientBoostingClassifier(
+        random_state=42
+    )
+
+}
+
+best_model = None
+best_accuracy = 0
+
+print("=" * 70)
+print("MODEL COMPARISON")
+print("=" * 70)
+
+# ==========================================
+# Train & Evaluate Models
+# ==========================================
+
+for name, model in models.items():
+
+    print("\n")
+    print("=" * 70)
+    print(name)
+    print("=" * 70)
+
+    model.fit(X_train, y_train)
+
+    predictions = model.predict(X_test)
+
+    accuracy = accuracy_score(y_test, predictions)
+    precision = precision_score(y_test, predictions)
+    recall = recall_score(y_test, predictions)
+    f1 = f1_score(y_test, predictions)
+
+    print(f"Accuracy : {accuracy:.4f}")
+    print(f"Precision: {precision:.4f}")
+    print(f"Recall   : {recall:.4f}")
+    print(f"F1 Score : {f1:.4f}")
+
+    print("\nConfusion Matrix")
+    print(confusion_matrix(y_test, predictions))
+
+    print("\nClassification Report")
+    print(classification_report(y_test, predictions))
+
+    if accuracy > best_accuracy:
+        best_accuracy = accuracy
+        best_model = model
+
+# ==========================================
+# Save Best Model
+# ==========================================
+
+joblib.dump(best_model, "models/student_performance_model.pkl")
+
+print("\n")
+print("=" * 70)
+print("BEST MODEL SAVED SUCCESSFULLY")
+print("=" * 70)
+
+print(f"Best Accuracy : {best_accuracy:.4f}")
+
+# ==========================================
+# Feature Importance
+# ==========================================
+
+print("\n")
+print("=" * 70)
+print("FEATURE IMPORTANCE")
+print("=" * 70)
+
+if hasattr(best_model, "feature_importances_"):
+
+    importance = pd.DataFrame({
+
+        "Feature": X_train.columns,
+
+        "Importance": best_model.feature_importances_
+
+    })
+
+    importance = importance.sort_values(
+        by="Importance",
+        ascending=False
+    )
+
+    print(importance)
+
+else:
+
+    print("This model does not support feature importance.")

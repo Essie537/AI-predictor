@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+
+<div class="container py-5">
+
+
+<h2 class="text-center mb-4">
+
+📊 Prediction History
+
+</h2>
+
+
+<table class="table table-bordered shadow">
+
+
+<thead class="table-dark">
+
+<tr>
+
+<th>
+Result
+</th>
+
+<th>
+Confidence
+</th>
+
+<th>
+Performance Level
+</th>
+
+<th>
+Attendance
+</th>
+
+<th>
+Previous GPA
+</th>
+
+<th>
+Date
+</th>
+
+</tr>
+
+</thead>
+
+
+
+<tbody>
+
+
+{% for prediction in predictions %}
+
+
+<tr>
+
+
+<td>
+
+{% if prediction.result == "PASS" %}
+
+<span class="badge bg-success">
+
+{{prediction.result}}
+
+</span>
+
+
+{% else %}
+
+
+<span class="badge bg-danger">
+
+{{prediction.result}}
+
+</span>
+
+
+{% endif %}
+
+
+</td>
+
+
+<td>
+
+{{prediction.confidence}}%
+
+</td>
+
+
+<td>
+
+{{prediction.performance_level}}
+
+</td>
+
+
+<td>
+
+{{prediction.attendance_rate}}%
+
+</td>
+
+
+<td>
+
+{{prediction.previous_gpa}}
+
+</td>
+
+
+<td>
+
+{{prediction.created_at.strftime('%d-%m-%Y')}}
+
+</td>
+
+
+</tr>
+
+
+{% endfor %}
+
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+{% endblock %}

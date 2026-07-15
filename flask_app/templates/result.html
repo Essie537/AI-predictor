@@ -2,70 +2,189 @@
 
 {% block content %}
 
-<div class="card shadow p-5 text-center">
+<div class="container py-5">
+
+
+<div class="row justify-content-center">
+
+<div class="col-md-8">
+
+
+{% if prediction == "PASS" %}
+
+
+<div class="card shadow-lg border-success">
+
+
+<div class="card-header bg-success text-white text-center">
 
 <h2>
-
-Prediction Result
-
+✅ Student Performance Result
 </h2>
 
-<hr>
+</div>
 
-<h1 class="display-1 text-success">
 
-{{ prediction }}%
+<div class="card-body text-center">
+
+
+<h1 class="text-success">
+
+PASS
 
 </h1>
 
-{% if prediction >= 80 %}
 
-<div class="alert alert-success">
+<h4>
 
-<h3>Excellent Performance ⭐⭐⭐⭐⭐</h3>
+Confidence:
+{{ confidence }}%
 
-<p>Keep maintaining your attendance and study habits.</p>
+</h4>
+
+
+<h5 class="mt-3">
+
+Performance Level:
+
+<span class="badge bg-success">
+
+{{ performance_level }}
+
+</span>
+
+</h5>
+
+
+<hr>
+
+
+<h4>
+🤖 AI Recommendations
+</h4>
+
+
+<ul class="list-group">
+
+
+{% for item in recommendations %}
+
+<li class="list-group-item">
+
+✔ {{ item }}
+
+</li>
+
+{% endfor %}
+
+
+</ul>
+
 
 </div>
 
-{% elif prediction >= 60 %}
-
-<div class="alert alert-primary">
-
-<h3>Good Performance 👍</h3>
-
-<p>The student is performing well. Continue working consistently.</p>
-
 </div>
 
-{% elif prediction >= 40 %}
 
-<div class="alert alert-warning">
-
-<h3>Average Performance</h3>
-
-<p>More study hours and attendance are recommended.</p>
-
-</div>
 
 {% else %}
 
-<div class="alert alert-danger">
 
-<h3>Needs Improvement</h3>
 
-<p>The student should improve attendance and study habits.</p>
+<div class="card shadow-lg border-danger">
+
+
+<div class="card-header bg-danger text-white text-center">
+
+
+<h2>
+❌ Student Performance Result
+</h2>
+
 
 </div>
+
+
+<div class="card-body text-center">
+
+
+<h1 class="text-danger">
+
+FAIL
+
+</h1>
+
+
+<h4>
+
+Confidence:
+{{ confidence }}%
+
+</h4>
+
+
+<h5 class="mt-3">
+
+Performance Level:
+
+<span class="badge bg-danger">
+
+{{ performance_level }}
+
+</span>
+
+</h5>
+
+
+<hr>
+
+
+<h4>
+🤖 AI Recommendations
+</h4>
+
+
+<ul class="list-group">
+
+
+{% for item in recommendations %}
+
+<li class="list-group-item">
+
+✔ {{ item }}
+
+</li>
+
+{% endfor %}
+
+
+</ul>
+
+
+</div>
+
+</div>
+
 
 {% endif %}
 
-<a href="/predict" class="btn btn-primary">
 
-Predict Another Student
+<br>
+
+
+<a href="/predict" class="btn btn-primary w-100">
+
+Make Another Prediction
 
 </a>
 
+
 </div>
+
+</div>
+
+
+</div>
+
 
 {% endblock %}

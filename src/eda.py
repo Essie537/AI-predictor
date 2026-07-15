@@ -1,35 +1,61 @@
-# Student Performance Prediction System
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-from pathlib import Path
 
-# Get the project folder
-BASE_DIR = Path(__file__).resolve().parent.parent
+# ==========================================
+# Load Dataset
+# ==========================================
 
-# Build the path to the CSV file
-DATA_PATH = BASE_DIR / "data" / "student_performance_updated_1000 .csv"
+data = pd.read_csv("data/student_exam_performance_dataset (1).csv")
 
-# Read the dataset
-df = pd.read_csv(DATA_PATH)
+print("=" * 70)
+print("FIRST 5 ROWS")
+print("=" * 70)
+print(data.head())
 
-# Display the first five rows
-# Display the first five rows
-print("\n========== FIRST 5 ROWS ==========\n")
-print(df.head())
+print("\n")
 
-# Dataset information
-print("\n========== DATASET INFORMATION ==========\n")
-print(df.info())
+print("=" * 70)
+print("DATASET SHAPE")
+print("=" * 70)
+print(data.shape)
 
-# Statistical summary
-print("\n========== STATISTICAL SUMMARY ==========\n")
-print(df.describe())
+print("\n")
 
-# Check for missing values
-print("\n========== MISSING VALUES ==========\n")
-print(df.isnull().sum())
+print("=" * 70)
+print("COLUMN NAMES")
+print("=" * 70)
+print(data.columns)
 
-# Check for duplicate rows
-print("\n========== DUPLICATE ROWS ==========\n")
-print(df.duplicated().sum())
+print("\n")
+
+print("=" * 70)
+print("DATA TYPES")
+print("=" * 70)
+print(data.info())
+
+print("\n")
+
+print("=" * 70)
+print("MISSING VALUES")
+print("=" * 70)
+print(data.isnull().sum())
+
+print("\n")
+
+print("=" * 70)
+print("DUPLICATE ROWS")
+print("=" * 70)
+print(data.duplicated().sum())
+
+print("\n")
+
+print("=" * 70)
+print("PASS / FAIL DISTRIBUTION")
+print("=" * 70)
+print(data["pass_fail"].value_counts())
+
+print("\n")
+
+print("=" * 70)
+print("SUMMARY STATISTICS")
+print("=" * 70)
+print(data.describe())
