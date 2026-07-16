@@ -253,29 +253,56 @@ def logout():
 # Dashboard
 # =====================================================
 
+# =====================================================
+# Dashboard
+# =====================================================
+
 @app.route("/dashboard")
 @login_required
 def dashboard():
 
+    predictions = Prediction.query.filter_by(
+        user_id=current_user.id
+    ).all()
 
-    return render_template(
+    total_predictions = len(predictions)
 
-        "dashboard.html",
-
-        grade_data=[
-            55,62,68,74,80,82,85,90,94,96
-        ],
-
-        attendance_data=[
-            60,65,70,75,80,85,90,95
-        ],
-
-        study_data=[
-            2,5,7,8,10,12,15,18,20
-        ]
-
+    pass_count = len(
+        [p for p in predictions if p.result == "PASS"]
     )
 
+    fail_count = len(
+        [p for p in predictions if p.result == "FAIL"]
+    )
+
+    if total_predictions > 0:
+
+        pass_rate = round(
+            (pass_count / total_predictions) * 100,
+            1
+        )
+
+        fail_rate = round(
+            (fail_count / total_predictions) * 100,
+            1
+        )
+
+        latest_prediction = predictions[-1]
+
+    else:
+
+        pass_rate = 0
+        fail_rate = 0
+        latest_prediction = None
+
+    return render_template(
+        "dashboard.html",
+        total_predictions=total_predictions,
+        pass_rate=pass_rate,
+        fail_rate=fail_rate,
+        latest_prediction=latest_prediction,
+        accuracy=94
+    )
 
 
 # =====================================================
@@ -285,18 +312,19 @@ def dashboard():
 @app.route("/predict", methods=["GET","POST"])
 @login_required
 def predict():
-
+    
     if request.method == "GET":
-
         return render_template(
             "predict.html"
         )
-
-
+        
+    # -----------------------------
+    # Get Student Name
+    # -----------------------------
     # -----------------------------
     # Get user input
     # -----------------------------
-
+    student_name = request.form["student_name"]
     input_data = pd.DataFrame({
 
         "gender": [
@@ -398,6 +426,7 @@ def predict():
     prediction = model.predict(
         input_data
     )[0]
+    print("Prediction:", prediction)
 
 
     # Confidence percentage
@@ -474,10 +503,36 @@ def predict():
 
             "Seek academic support when needed."
 
-        ]
+        ]  
+        
+    # -----------------------------
+    # Save prediction to database
+    # -----------------------------
 
+    new_prediction = Prediction(
+       student_name=student_name, 
 
+        result=result,
 
+        confidence=confidence,
+
+        performance_level=performance_level,
+
+        attendance_rate=float(request.form["attendance_rate"]),
+
+        study_hours=float(request.form["study_hours_per_day"]),
+
+        previous_gpa=float(request.form["previous_gpa"]),
+
+        user_id=current_user.id
+
+    )
+
+    db.session.add(new_prediction)
+
+    db.session.commit()
+
+     
     return render_template(
 
     "result.html",

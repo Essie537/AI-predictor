@@ -35,6 +35,12 @@ X_test = data["X_test"]
 y_train = data["y_train"]
 y_test = data["y_test"]
 
+print("\nTraining target distribution:")
+print(y_train.value_counts())
+
+print("\nTesting target distribution:")
+print(y_test.value_counts())
+
 # ==========================================
 # Machine Learning Models
 # ==========================================

@@ -65,44 +65,41 @@ class Prediction(db.Model):
         primary_key=True
     )
 
+    student_name = db.Column(
+        db.String(100),
+        nullable=False
+    )
 
     result = db.Column(
         db.String(20),
         nullable=False
     )
 
-
     confidence = db.Column(
         db.Float,
         nullable=False
     )
 
-
     performance_level = db.Column(
         db.String(50)
     )
-
 
     attendance_rate = db.Column(
         db.Float
     )
 
-
     study_hours = db.Column(
         db.Float
     )
-
 
     previous_gpa = db.Column(
         db.Float
     )
 
-
     created_at = db.Column(
         db.DateTime,
         default=datetime.utcnow
     )
-
 
     user_id = db.Column(
         db.Integer,
