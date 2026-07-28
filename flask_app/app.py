@@ -1,22 +1,18 @@
-from flask import Flask, render_template, request, redirect
-
-from flask_login import (
-    LoginManager,
-    login_user,
-    logout_user,
-    login_required,
-    current_user
-    
-)
-
-from werkzeug.security import generate_password_hash, check_password_hash
-
 from pathlib import Path
 
 import joblib
 import pandas as pd
+from flask import Flask, redirect, render_template, request
+from flask_login import (
+    LoginManager,
+    current_user,
+    login_required,
+    login_user,
+    logout_user,
+)
+from werkzeug.security import check_password_hash, generate_password_hash
 
-from flask_app.models import db, User, Prediction
+from flask_app.models import Prediction, User, db
 
 # =====================================================
 # Create Flask App
@@ -72,13 +68,11 @@ def load_user(user_id):
 
 PROJECT_DIR = BASE_DIR.parent
 
-
 MODEL_PATH = (
     PROJECT_DIR /
     "models" /
     "student_performance_model.pkl"
 )
-
 
 ENCODER_PATH = (
     PROJECT_DIR /
@@ -86,8 +80,24 @@ ENCODER_PATH = (
     "encoders.pkl"
 )
 
+print("=" * 60)
+print("LOADING AI MODEL")
+print("=" * 60)
+print("Model Path:", MODEL_PATH)
 
 model = joblib.load(MODEL_PATH)
+
+print("\nModel Type:")
+print(type(model))
+
+print("\nModel Details:")
+print(model)
+
+if hasattr(model, "feature_names_in_"):
+    print("\nFeatures:")
+    print(model.feature_names_in_)
+
+print("=" * 60)
 
 encoders = joblib.load(ENCODER_PATH)
 
@@ -266,6 +276,7 @@ def dashboard():
     ).all()
 
     total_predictions = len(predictions)
+    algorithm = type(model).__name__
 
     pass_count = len(
         [p for p in predictions if p.result == "PASS"]
@@ -296,75 +307,42 @@ def dashboard():
         latest_prediction = None
 
     return render_template(
-        "dashboard.html",
-        total_predictions=total_predictions,
-        pass_rate=pass_rate,
-        fail_rate=fail_rate,
-        latest_prediction=latest_prediction,
-        accuracy=94
-    )
+    "dashboard.html",
+    total_predictions=total_predictions,
+    pass_rate=pass_rate,
+    fail_rate=fail_rate,
+    latest_prediction=latest_prediction,
+    accuracy=86.5,
+    algorithm=algorithm
+)
 
 
 # =====================================================
 # Prediction
 # =====================================================
-
-@app.route("/predict", methods=["GET","POST"])
+@app.route("/predict", methods=["GET", "POST"])
 @login_required
 def predict():
-    
+
     if request.method == "GET":
-        return render_template(
-            "predict.html"
-        )
-        
+        return render_template("predict.html")
+
     # -----------------------------
     # Get Student Name
     # -----------------------------
+    student_name = request.form["student_name"]
+
     # -----------------------------
     # Get user input
     # -----------------------------
-    student_name = request.form["student_name"]
     input_data = pd.DataFrame({
-
-        "gender": [
-            request.form["gender"]
-        ],
-
-        "age": [
-            int(request.form["age"])
-        ],
-
-        "parental_education": [
-            request.form["parental_education"]
-        ],
-
-        "family_income": [
-            request.form["family_income"]
-        ],
-
-        "internet_access": [
-            request.form["internet_access"]
-        ],
-
-        "study_environment": [
-            request.form["study_environment"]
-        ],
-
-        "study_hours_per_day": [
-            float(request.form["study_hours_per_day"])
-        ],
 
         "attendance_rate": [
             float(request.form["attendance_rate"])
         ],
 
-        "sleep_hours": [
-            float(request.form["sleep_hours"])
-        ],
-
-        "social_media_hours": [
-            float(request.form["social_media_hours"])
+        "study_hours_per_day": [
+            float(request.form["study_hours_per_day"])
         ],
 
         "assignment_completion_rate": [
@@ -375,16 +353,20 @@ def predict():
             float(request.form["participation_score"])
         ],
 
-        "online_courses_completed": [
-            int(request.form["online_courses_completed"])
+        "previous_gpa": [
+            float(request.form["previous_gpa"])
+        ],
+
+        "sleep_hours": [
+            float(request.form["sleep_hours"])
+        ],
+
+        "study_environment": [
+            request.form["study_environment"]
         ],
 
         "tutoring": [
             request.form["tutoring"]
-        ],
-
-        "previous_gpa": [
-            float(request.form["previous_gpa"])
         ]
 
     })
@@ -396,20 +378,11 @@ def predict():
 
     categorical_columns = [
 
-        "gender",
-
-        "parental_education",
-
-        "family_income",
-
-        "internet_access",
-
         "study_environment",
 
         "tutoring"
 
     ]
-
 
     for column in categorical_columns:
 
@@ -417,17 +390,12 @@ def predict():
             input_data[column]
         )
 
-
-
     # -----------------------------
     # Prediction
     # -----------------------------
 
-    prediction = model.predict(
-        input_data
-    )[0]
+    prediction = model.predict(input_data)[0]
     print("Prediction:", prediction)
-
 
     # Confidence percentage
 

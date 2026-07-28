@@ -95,14 +95,31 @@ for column in categorical_columns:
 # ==========================================
 
 
-X = data.drop(
-    columns=["pass_fail"]
-)
+# Keep only the most important features
 
+selected_features = [
+
+    "attendance_rate",
+
+    "study_hours_per_day",
+
+    "assignment_completion_rate",
+
+    "participation_score",
+
+    "previous_gpa",
+
+    "sleep_hours",
+
+    "study_environment",
+
+    "tutoring"
+
+]
+
+X = data[selected_features]
 
 y = data["pass_fail"]
-
-
 
 print("\n")
 print("=" * 60)

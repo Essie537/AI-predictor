@@ -1,7 +1,7 @@
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 
+from flask_login import UserMixin
+from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
@@ -97,9 +97,12 @@ class Prediction(db.Model):
     )
 
     created_at = db.Column(
-        db.DateTime,
-        default=datetime.utcnow
-    )
+    db.DateTime,
+    default=lambda: datetime.now(timezone.utc).astimezone(
+        timezone(timedelta(hours=3))
+    ).replace(tzinfo=None)
+)
+
 
     user_id = db.Column(
         db.Integer,
